@@ -1,0 +1,33 @@
+{
+  "name": "better-weather-api",
+  "version": "1.0.0",
+  "description": "A complete GraphQL Wrapper of the Open Weather Map API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fr0sty99/better-weather-api.git"
+  },
+  "keywords": [
+    "better",
+    "weather",
+    "api",
+    "graphql",
+    "apollo"
+  ],
+  "author": "Joris Neber",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fr0sty99/better-weather-api/issues"
+  },
+  "homepage": "https://github.com/fr0sty99/better-weather-api#readme",
+  "dependencies": {
+    "apollo-server": "^3.6.2",
+    "axios": "^0.25.0",
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
