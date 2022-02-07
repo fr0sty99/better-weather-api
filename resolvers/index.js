@@ -20,13 +20,14 @@ const resolvers = {
                 if (config.exclude) {
                     url = url + '&exclude="';
                     if (config.exclude.current) url = url + 'current,';
-                    if (config.exclude.current) url = url + 'minutely,';
-                    if (config.exclude.current) url = url + 'hourly,';
-                    if (config.exclude.current) url = url + 'alerts,';
+                    if (config.exclude.minutely) url = url + 'minutely,';
+                    if (config.exclude.hourly) url = url + 'hourly,';
+                    if (config.exclude.daily) url = url + 'daily,';
+                    if (config.exclude.alerts) url = url + 'alerts,';
 
                     url = url + '"'
-                    console.log(url);
 
+                    console.log(url);
                 }
             }
 
@@ -58,6 +59,45 @@ const resolvers = {
                             icon: data.current.weather[0].icon,
                         }
                     }
+                }
+
+                var minutely = [{}];
+                if (data.minutely) {
+                    minutely = data.minutely.map((minute) => {
+                        return {
+                            dt: minute.dt,
+                            precipitation: minute.precipitation,
+                        }
+                    });
+                }
+
+                var hourly = [{}];
+                if (data.hourly) {
+                    hourly = data.hourly.map((hour) => {
+                        return {
+                            dt: hour.dt,
+                            temp: hour.temp,
+                            feelsLike: hour.feels_like,
+                            pressure: hour.pressure,
+                            humidity: hour.humidity,
+                            dewPoint: hour.dew_point,
+                            uvi: hour.uvi,
+                            clouds: hour.clouds,
+                            visibility: hour.visibility,
+                            windSpeed: hour.wind_speed,
+                            windDeg: hour.wind_deg,
+                            windGust: hour.wind_gust,
+                            pop: hour.pop,
+                            rain: hour.rain,
+                            snow: hour.snow,
+                            weather: {
+                                id: hour.weather[0].id,
+                                main: hour.weather[0].main,
+                                description: hour.weather[0].description,
+                                icon: hour.weather[0].icon
+                            }
+                        }
+                    });
                 }
 
                 var daily = [{}];
@@ -113,6 +153,8 @@ const resolvers = {
                     timezone: data.timezone,
                     timezoneOffset: data.timezone_offset,
                     current: current,
+                    minutely: minutely,
+                    hourly: hourly,
                     daily: daily,
                 };
             } catch (e) {
