@@ -1,19 +1,14 @@
 require("dotenv").config();
 
-import { ApolloServer } from "apollo-server";
-import {
-    ApolloServerPluginLandingPageGraphQLPlayground
-} from "apollo-server-core";
-import { typeDefs } from "./typeDefs";
-import { resolvers } from "./resolvers";
+const { ApolloServer } = require("apollo-server");
+const { typeDefs } = require("./typeDefs");
+const { resolvers } = require("./resolvers");
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     introspection: true,
-    plugins: [
-        ApolloServerPluginLandingPageGraphQLPlayground(),
-    ],
+    playground: true,
 });
 
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
