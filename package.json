@@ -25,11 +25,10 @@
   },
   "homepage": "https://github.com/fr0sty99/better-weather-api#readme",
   "dependencies": {
-    "apollo-server": "^3.6.2",
-    "apollo-server-core": "^3.6.2",
+    "apollo-server": "^2.16.0",
     "axios": "^0.25.0",
-    "dotenv": "^16.0.0",
-    "graphql": "^16.3.0",
-    "nodemon": "^2.0.15"
+    "dotenv": "^8.2.0",
+    "graphql": "^15.3.0",
+    "nodemon": "^2.0.4"
   }
 }
