@@ -4,8 +4,9 @@
   "description": "A complete GraphQL Wrapper of the Open Weather Map API.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "npm install -g; serve -s build",
+    "dev": "nodemon -r dotenv/config index.js",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "apollo-server": "^3.6.2",
     "axios": "^0.25.0",
     "dotenv": "^16.0.0",
+    "graphql": "^16.3.0",
     "nodemon": "^2.0.15"
   }
 }
