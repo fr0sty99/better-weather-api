@@ -117,6 +117,11 @@ const typeDefs = gql`
     alerts: [Alerts]
   }
 
+  type MinMaxTemp {
+    min: Float
+    max: Float
+  }
+
   input ExcludeConfig {
     current: Boolean
     minutely: Boolean
@@ -133,6 +138,7 @@ const typeDefs = gql`
 
   type Query {
     getWeatherByCoord(lat: Float!, lon: Float!, config: InputConfig): OneCallWeather
+    getTodaysMinMaxTempByCoord(lat: Float!, lon: Float!, units: Unit): MinMaxTemp
   }
 
   enum Unit {tar

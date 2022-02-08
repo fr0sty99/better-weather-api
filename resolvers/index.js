@@ -1,7 +1,8 @@
 const axios = require("axios");
 const { UserInputError } = require("apollo-server");
-
 const ONECALL_API = `https://api.openweathermap.org/data/2.5/onecall?appid=${process.env.KEY}`;
+const ONECALL_API_TIMEMACHINE = `https://api.openweathermap.org/data/2.5/onecall/timemachine?appid=${process.env.KEY}`;
+
 
 const resolvers = {
 
@@ -162,6 +163,42 @@ const resolvers = {
             }
         },
     },
+    Query: {
+        getTodaysMinMaxTempByCoord: async (obj, args, context, info) => {
+            const { lat, lon, units } = args;
+            let url = `${ONECALL_API}`;
+
+            if (!lat || !lon) {
+                return { error: "Something went wrong" }
+            }
+
+            // Add other fields if possible
+            if (lat) url = url + `&lat=${lat}`;
+            if (lon) url = url + `&lon=${lon}`;
+            if (units) url = url + `&units=${units}`;
+            url = url + `&dt=${+ new Date()}`;
+
+            try {
+                const { data } = await axios.get(url);
+                // There's no real number bigger than plus Infinity
+                var lowest = Number.POSITIVE_INFINITY;
+                var highest = Number.NEGATIVE_INFINITY;
+                var tmp;
+                for (var i = data.hourly.length - 1; i >= 0; i--) {
+                    tmp = data.hourly[i].temp;
+                    if (tmp < lowest) lowest = tmp;
+                    if (tmp > highest) highest = tmp;
+                }
+
+                return {
+                    min: lowest,
+                    max: highest
+                };
+            } catch (e) {
+                return null;
+            }
+        }
+    }
 };
 
 module.exports = {
