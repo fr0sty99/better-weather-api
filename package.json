@@ -4,8 +4,11 @@
   "description": "A complete GraphQL Wrapper of the Open Weather Map API.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev": "nodemon -r dotenv/config index.js"
+      "start": "nodemon index.js",
+      "dev": "nodemon -r dotenv/config index.js"
+  },
+  "engines": {
+    "node": "v16.13.x"
   },
   "repository": {
     "type": "git",
@@ -25,10 +28,11 @@
   },
   "homepage": "https://github.com/fr0sty99/better-weather-api#readme",
   "dependencies": {
-    "apollo-server": "^2.16.0",
+    "apollo-server": "^3.6.2",
+    "apollo-server-core": "^3.6.2",
     "axios": "^0.25.0",
-    "dotenv": "^8.2.0",
-    "graphql": "^15.3.0",
-    "nodemon": "^2.0.4"
+    "dotenv": "^16.0.0",
+    "graphql": "^16.3.0",
+    "nodemon": "^2.0.15"
   }
 }

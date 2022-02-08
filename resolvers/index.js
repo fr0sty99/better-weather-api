@@ -3,7 +3,6 @@ const { UserInputError } = require("apollo-server");
 const ONECALL_API = `https://api.openweathermap.org/data/2.5/onecall?appid=${process.env.KEY}`;
 const ONECALL_API_TIMEMACHINE = `https://api.openweathermap.org/data/2.5/onecall/timemachine?appid=${process.env.KEY}`;
 
-
 const resolvers = {
 
     Query: {
@@ -11,6 +10,7 @@ const resolvers = {
             // lat, lon is required | exclude, units and lang are optional
             const { lat, lon, config } = args;
             let url = `${ONECALL_API}`;
+            console.log("test");
 
             // Add other fields if possible
             if (config) {
@@ -18,19 +18,11 @@ const resolvers = {
                 if (lon) url = url + `&lon=${lon}`;
                 if (config.units) url = url + `&units=${config.units}`;
                 if (config.lang) url = url + `&lang=${config.lang}`;
-                if (config.exclude) {
-                    url = url + '&exclude="';
-                    if (config.exclude.current) url = url + 'current,';
-                    if (config.exclude.minutely) url = url + 'minutely,';
-                    if (config.exclude.hourly) url = url + 'hourly,';
-                    if (config.exclude.daily) url = url + 'daily,';
-                    if (config.exclude.alerts) url = url + 'alerts,';
+                url = url + '"'
 
-                    url = url + '"'
-
-                    console.log(url);
-                }
+                console.log(url);
             }
+
 
             try {
                 const { data } = await axios.get(url);
@@ -159,28 +151,33 @@ const resolvers = {
                     daily: daily,
                 };
             } catch (e) {
+                console.log(e);
                 return null;
             }
         },
-    },
-    Query: {
-        getTodaysMinMaxTempByCoord: async (obj, args, context, info) => {
-            const { lat, lon, units } = args;
-            let url = `${ONECALL_API}`;
 
+        getTodaysMinMaxTempByCoord: async (obj, args, context, info) => {
+            const { lat, lon, units, timezoneOffset } = args;
+            let url = `${ONECALL_API_TIMEMACHINE}`;
             if (!lat || !lon) {
-                return { error: "Something went wrong" }
+                return { error: "Oops. Something went wrong.. Define lat & lon in query" }
             }
+
+            // set query timestamp to start of today
+            var time = new Date();
+            time.setHours(0, 0, 0, 0);
 
             // Add other fields if possible
             if (lat) url = url + `&lat=${lat}`;
             if (lon) url = url + `&lon=${lon}`;
             if (units) url = url + `&units=${units}`;
-            url = url + `&dt=${+ new Date()}`;
+
+            const hourInMillis = 60 * 60 * 1000;
+            url = url + `&dt=${(time.getTime() + hourInMillis) / 1000}`;
 
             try {
                 const { data } = await axios.get(url);
-                // There's no real number bigger than plus Infinity
+
                 var lowest = Number.POSITIVE_INFINITY;
                 var highest = Number.NEGATIVE_INFINITY;
                 var tmp;
@@ -195,7 +192,7 @@ const resolvers = {
                     max: highest
                 };
             } catch (e) {
-                return null;
+
             }
         }
     }

@@ -131,14 +131,13 @@ const typeDefs = gql`
   }
 
   input InputConfig {
-    exclude: ExcludeConfig
     units: Unit
     lang: Language
   }
 
   type Query {
     getWeatherByCoord(lat: Float!, lon: Float!, config: InputConfig): OneCallWeather
-    getTodaysMinMaxTempByCoord(lat: Float!, lon: Float!, units: Unit): MinMaxTemp
+    getTodaysMinMaxTempByCoord(lat: Float!, lon: Float!, timezoneOffset: String, units: Unit): MinMaxTemp
   }
 
   enum Unit {tar
